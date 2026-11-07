@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 196" width="420" height="196" role="img" aria-label="Relatórios automáticos">
+  <defs>
+    <linearGradient id="f" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#150d34"/><stop offset="1" stop-color="#08070f"/></linearGradient>
+    <radialGradient id="n" cx="85%" cy="15%" r="60%"><stop offset="0" stop-color="#7c3aed" stop-opacity=".35"/><stop offset="1" stop-color="#7c3aed" stop-opacity="0"/></radialGradient>
+    <linearGradient id="l" x1="0" x2="1"><stop offset="0" stop-color="#ff8a5b"/><stop offset="1" stop-color="#ff8a5b" stop-opacity="0"/></linearGradient>
+  </defs>
+  <style>
+    .tit{font:700 19px 'Segoe UI',Inter,'Helvetica Neue',Arial,sans-serif;fill:#fff}
+    .num{font:600 11px 'JetBrains Mono','Fira Code',Consolas,'Courier New',monospace;letter-spacing:3px;fill:#ff8a5b}
+    .desc{font:400 13px 'Segoe UI',Inter,'Helvetica Neue',Arial,sans-serif;fill:#cfc8f0}
+    .tag{font:600 11px 'Segoe UI',Inter,'Helvetica Neue',Arial,sans-serif;fill:#ffc6ad}
+    .orb{transform-origin:368px 46px;animation:o 9s linear infinite}
+    @keyframes o{to{transform:rotate(360deg)}}
+  </style>
+  <rect x=".5" y=".5" width="419" height="195" rx="14" fill="url(#f)" stroke="#2a2346"/>
+  <rect x=".5" y=".5" width="419" height="195" rx="14" fill="url(#n)"/>
+  <circle cx="301" cy="116" r="0.5" fill="#fff" opacity="0.48"/><circle cx="347" cy="1" r="0.9" fill="#fff" opacity="0.17"/><circle cx="103" cy="180" r="0.7" fill="#fff" opacity="0.40"/><circle cx="107" cy="3" r="0.5" fill="#fff" opacity="0.32"/><circle cx="381" cy="137" r="0.5" fill="#fff" opacity="0.52"/><circle cx="91" cy="53" r="0.9" fill="#fff" opacity="0.48"/><circle cx="418" cy="7" r="0.7" fill="#fff" opacity="0.38"/><circle cx="257" cy="101" r="0.5" fill="#fff" opacity="0.45"/><circle cx="56" cy="177" r="0.7" fill="#fff" opacity="0.31"/><circle cx="335" cy="58" r="0.9" fill="#fff" opacity="0.43"/><circle cx="202" cy="104" r="0.9" fill="#fff" opacity="0.18"/><circle cx="305" cy="98" r="0.7" fill="#fff" opacity="0.51"/><circle cx="353" cy="78" r="0.5" fill="#fff" opacity="0.19"/><circle cx="257" cy="121" r="0.5" fill="#fff" opacity="0.33"/><circle cx="274" cy="100" r="0.9" fill="#fff" opacity="0.52"/><circle cx="101" cy="116" r="0.5" fill="#fff" opacity="0.40"/><circle cx="195" cy="35" r="0.5" fill="#fff" opacity="0.40"/><circle cx="29" cy="108" r="0.7" fill="#fff" opacity="0.47"/><circle cx="4" cy="100" r="0.5" fill="#fff" opacity="0.55"/><circle cx="304" cy="106" r="0.9" fill="#fff" opacity="0.22"/><circle cx="262" cy="39" r="0.5" fill="#fff" opacity="0.50"/><circle cx="262" cy="70" r="0.7" fill="#fff" opacity="0.43"/><circle cx="336" cy="194" r="0.7" fill="#fff" opacity="0.51"/><circle cx="133" cy="123" r="0.9" fill="#fff" opacity="0.43"/><circle cx="87" cy="103" r="0.9" fill="#fff" opacity="0.28"/><circle cx="12" cy="163" r="0.7" fill="#fff" opacity="0.31"/><circle cx="141" cy="142" r="0.7" fill="#fff" opacity="0.37"/><circle cx="234" cy="81" r="0.7" fill="#fff" opacity="0.27"/><circle cx="339" cy="6" r="0.9" fill="#fff" opacity="0.31"/><circle cx="111" cy="102" r="0.7" fill="#fff" opacity="0.28"/><circle cx="121" cy="193" r="0.9" fill="#fff" opacity="0.33"/><circle cx="418" cy="141" r="0.5" fill="#fff" opacity="0.23"/><circle cx="294" cy="48" r="0.7" fill="#fff" opacity="0.24"/><circle cx="15" cy="15" r="0.7" fill="#fff" opacity="0.36"/>
+  <circle cx="368" cy="46" r="16" fill="none" stroke="#3a2d70" stroke-dasharray="2 4"/>
+  <circle cx="368" cy="46" r="4" fill="#ffd2bd"/>
+  <g class="orb"><circle cx="384" cy="46" r="2.6" fill="#ff8a5b"/></g>
+  <text x="26" y="36" class="num">05 · REPOSITÓRIO</text>
+  <text x="26" y="64" class="tit">Relatórios automáticos</text>
+  <rect x="26" y="74" width="64" height="2" fill="url(#l)"/>
+  <text x="26" y="96" class="desc">Do banco para um e-mail pronto para agir,</text><text x="26" y="115" class="desc">com a planilha em anexo e agendamento</text><text x="26" y="134" class="desc">oculto no Windows.</text>
+  <rect x="26" y="160" width="59" height="20" rx="10" fill="#21184a" stroke="#3a2d70"/><text x="56" y="174" class="tag" text-anchor="middle">Python</text><rect x="93.2" y="160" width="52" height="20" rx="10" fill="#21184a" stroke="#3a2d70"/><text x="119" y="174" class="tag" text-anchor="middle">Excel</text><rect x="153.2" y="160" width="81" height="20" rx="10" fill="#21184a" stroke="#3a2d70"/><text x="194" y="174" class="tag" text-anchor="middle">Agendador</text>
+</svg>

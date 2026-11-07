@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 196" width="420" height="196" role="img" aria-label="Robô de portal web">
+  <defs>
+    <linearGradient id="f" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#150d34"/><stop offset="1" stop-color="#08070f"/></linearGradient>
+    <radialGradient id="n" cx="85%" cy="15%" r="60%"><stop offset="0" stop-color="#7c3aed" stop-opacity=".35"/><stop offset="1" stop-color="#7c3aed" stop-opacity="0"/></radialGradient>
+    <linearGradient id="l" x1="0" x2="1"><stop offset="0" stop-color="#ff8a5b"/><stop offset="1" stop-color="#ff8a5b" stop-opacity="0"/></linearGradient>
+  </defs>
+  <style>
+    .tit{font:700 19px 'Segoe UI',Inter,'Helvetica Neue',Arial,sans-serif;fill:#fff}
+    .num{font:600 11px 'JetBrains Mono','Fira Code',Consolas,'Courier New',monospace;letter-spacing:3px;fill:#ff8a5b}
+    .desc{font:400 13px 'Segoe UI',Inter,'Helvetica Neue',Arial,sans-serif;fill:#cfc8f0}
+    .tag{font:600 11px 'Segoe UI',Inter,'Helvetica Neue',Arial,sans-serif;fill:#ffc6ad}
+    .orb{transform-origin:368px 46px;animation:o 9s linear infinite}
+    @keyframes o{to{transform:rotate(360deg)}}
+  </style>
+  <rect x=".5" y=".5" width="419" height="195" rx="14" fill="url(#f)" stroke="#2a2346"/>
+  <rect x=".5" y=".5" width="419" height="195" rx="14" fill="url(#n)"/>
+  <circle cx="29" cy="81" r="0.5" fill="#fff" opacity="0.32"/><circle cx="51" cy="27" r="0.9" fill="#fff" opacity="0.24"/><circle cx="329" cy="193" r="0.9" fill="#fff" opacity="0.23"/><circle cx="404" cy="170" r="0.9" fill="#fff" opacity="0.35"/><circle cx="363" cy="159" r="0.9" fill="#fff" opacity="0.45"/><circle cx="415" cy="151" r="0.9" fill="#fff" opacity="0.34"/><circle cx="408" cy="119" r="0.7" fill="#fff" opacity="0.30"/><circle cx="341" cy="30" r="0.9" fill="#fff" opacity="0.30"/><circle cx="281" cy="36" r="0.5" fill="#fff" opacity="0.44"/><circle cx="275" cy="25" r="0.5" fill="#fff" opacity="0.39"/><circle cx="396" cy="90" r="0.7" fill="#fff" opacity="0.34"/><circle cx="383" cy="153" r="0.7" fill="#fff" opacity="0.36"/><circle cx="310" cy="122" r="0.7" fill="#fff" opacity="0.45"/><circle cx="275" cy="85" r="0.7" fill="#fff" opacity="0.40"/><circle cx="141" cy="194" r="0.7" fill="#fff" opacity="0.21"/><circle cx="235" cy="42" r="0.5" fill="#fff" opacity="0.47"/><circle cx="44" cy="3" r="0.5" fill="#fff" opacity="0.53"/><circle cx="359" cy="194" r="0.7" fill="#fff" opacity="0.32"/><circle cx="33" cy="84" r="0.5" fill="#fff" opacity="0.25"/><circle cx="44" cy="55" r="0.9" fill="#fff" opacity="0.41"/><circle cx="129" cy="143" r="0.9" fill="#fff" opacity="0.39"/><circle cx="358" cy="101" r="0.7" fill="#fff" opacity="0.35"/><circle cx="279" cy="105" r="0.7" fill="#fff" opacity="0.48"/><circle cx="355" cy="146" r="0.5" fill="#fff" opacity="0.45"/><circle cx="158" cy="126" r="0.5" fill="#fff" opacity="0.49"/><circle cx="343" cy="34" r="0.7" fill="#fff" opacity="0.54"/><circle cx="257" cy="186" r="0.7" fill="#fff" opacity="0.16"/><circle cx="208" cy="22" r="0.5" fill="#fff" opacity="0.15"/><circle cx="151" cy="70" r="0.9" fill="#fff" opacity="0.18"/><circle cx="62" cy="103" r="0.7" fill="#fff" opacity="0.25"/><circle cx="17" cy="108" r="0.5" fill="#fff" opacity="0.24"/><circle cx="387" cy="154" r="0.9" fill="#fff" opacity="0.23"/><circle cx="176" cy="53" r="0.9" fill="#fff" opacity="0.25"/><circle cx="142" cy="131" r="0.5" fill="#fff" opacity="0.17"/>
+  <circle cx="368" cy="46" r="16" fill="none" stroke="#3a2d70" stroke-dasharray="2 4"/>
+  <circle cx="368" cy="46" r="4" fill="#ffd2bd"/>
+  <g class="orb"><circle cx="384" cy="46" r="2.6" fill="#ff8a5b"/></g>
+  <text x="26" y="36" class="num">03 · REPOSITÓRIO</text>
+  <text x="26" y="64" class="tit">Robô de portal web</text>
+  <rect x="26" y="74" width="64" height="2" fill="url(#l)"/>
+  <text x="26" y="96" class="desc">RPA com Playwright: fila, novas tentativas,</text><text x="26" y="115" class="desc">evidência em print e CPF mascarado no</text><text x="26" y="134" class="desc">log. Testes sem abrir navegador.</text>
+  <rect x="26" y="160" width="88" height="20" rx="10" fill="#21184a" stroke="#3a2d70"/><text x="70" y="174" class="tag" text-anchor="middle">Playwright</text><rect x="122.0" y="160" width="38" height="20" rx="10" fill="#21184a" stroke="#3a2d70"/><text x="141" y="174" class="tag" text-anchor="middle">RPA</text><rect x="167.6" y="160" width="59" height="20" rx="10" fill="#21184a" stroke="#3a2d70"/><text x="197" y="174" class="tag" text-anchor="middle">SQLite</text>
+</svg>

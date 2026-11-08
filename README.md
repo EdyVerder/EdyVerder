@@ -22,11 +22,11 @@
 <h3 align="center">✦ em destaque</h3>
 
 <p align="center">
-  <a href="https://github.com/EdyRocha2005/ignis"><img src="https://raw.githubusercontent.com/EdyRocha2005/ignis/main/assets/ignis.gif" width="880" alt="Ignis: designer visual de ETL no navegador, com execução, métricas por passo e prévia dos dados" /></a>
+  <a href="https://github.com/EdyVerder/ignis"><img src="https://raw.githubusercontent.com/EdyVerder/ignis/main/assets/ignis.gif" width="880" alt="Ignis: designer visual de ETL no navegador, com execução, métricas por passo e prévia dos dados" /></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/EdyRocha2005/ignis"><b>Ignis</b></a> · plataforma de ETL na web, inspirada no Pentaho PDI e no Apache Hop<br />
+  <a href="https://github.com/EdyVerder/ignis"><b>Ignis</b></a> · plataforma de ETL na web, inspirada no Pentaho PDI e no Apache Hop<br />
   <sub>designer visual · mais de 50 tipos de passo · métricas por passo · jobs · agendamentos · histórico com o erro explicado · hoje web, em breve app + web</sub>
 </p>
 
@@ -36,16 +36,16 @@
 
 <table align="center">
   <tr>
-    <td><a href="https://github.com/EdyRocha2005/dw-tempo-real"><img src="assets/cards/dw-tempo-real.svg" width="400" alt="DW em tempo real: espelho incremental ERP para DW de minuto em minuto, com travas" /></a></td>
-    <td><a href="https://github.com/EdyRocha2005/conferencia-nfse"><img src="assets/cards/conferencia-nfse.svg" width="400" alt="Conferência de NFS-e: nota contra lançamento, retenções e parecer em PDF" /></a></td>
+    <td><a href="https://github.com/EdyVerder/dw-tempo-real"><img src="assets/cards/dw-tempo-real.svg" width="400" alt="DW em tempo real: espelho incremental ERP para DW de minuto em minuto, com travas" /></a></td>
+    <td><a href="https://github.com/EdyVerder/conferencia-nfse"><img src="assets/cards/conferencia-nfse.svg" width="400" alt="Conferência de NFS-e: nota contra lançamento, retenções e parecer em PDF" /></a></td>
   </tr>
   <tr>
-    <td><a href="https://github.com/EdyRocha2005/robo-portal-web"><img src="assets/cards/robo-portal-web.svg" width="400" alt="Robô de portal web: Playwright com fila, novas tentativas e evidências" /></a></td>
-    <td><a href="https://github.com/EdyRocha2005/robo-erp-desktop"><img src="assets/cards/robo-erp-desktop.svg" width="400" alt="Robô de ERP desktop: UI Automation no Windows" /></a></td>
+    <td><a href="https://github.com/EdyVerder/robo-portal-web"><img src="assets/cards/robo-portal-web.svg" width="400" alt="Robô de portal web: Playwright com fila, novas tentativas e evidências" /></a></td>
+    <td><a href="https://github.com/EdyVerder/robo-erp-desktop"><img src="assets/cards/robo-erp-desktop.svg" width="400" alt="Robô de ERP desktop: UI Automation no Windows" /></a></td>
   </tr>
   <tr>
-    <td><a href="https://github.com/EdyRocha2005/relatorios-automaticos"><img src="assets/cards/relatorios-automaticos.svg" width="400" alt="Relatórios automáticos: do banco para o e-mail com Excel anexo" /></a></td>
-    <td><a href="https://github.com/EdyRocha2005/EdyRocha2005"><img src="assets/cards/EdyRocha2005.svg" width="400" alt="Este perfil: banner e mapa estelar gerados por código" /></a></td>
+    <td><a href="https://github.com/EdyVerder/relatorios-automaticos"><img src="assets/cards/relatorios-automaticos.svg" width="400" alt="Relatórios automáticos: do banco para o e-mail com Excel anexo" /></a></td>
+    <td><a href="https://github.com/EdyVerder/EdyVerder"><img src="assets/cards/EdyVerder.svg" width="400" alt="Este perfil: banner e mapa estelar gerados por código" /></a></td>
   </tr>
 </table>
 
@@ -75,7 +75,7 @@
 <h3 align="center">✦ mapa estelar</h3>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/EdyRocha2005/EdyRocha2005/output/mapa-estelar.svg" width="880" alt="Mapa estelar de contribuições: cada dia do último ano é uma estrela, mais brilhante quanto mais contribuições; dias seguidos formam constelações" />
+  <img src="https://raw.githubusercontent.com/EdyVerder/EdyVerder/output/mapa-estelar.svg" width="880" alt="Mapa estelar de contribuições: cada dia do último ano é uma estrela, mais brilhante quanto mais contribuições; dias seguidos formam constelações" />
 </p>
 
 <p align="center"><sub>cada dia do último ano é uma estrela · quanto mais contribuições, mais brilho · dias seguidos viram constelação · atualizado todo dia</sub></p>

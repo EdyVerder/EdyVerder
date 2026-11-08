@@ -27,7 +27,7 @@ PROJETOS = [
     ("relatorios-automaticos", "Relatórios automáticos", "05",
      ["Do banco para um e-mail pronto para agir,", "com a planilha em anexo e agendamento", "oculto no Windows."],
      ["Python", "Excel", "Agendador"]),
-    ("EdyRocha2005", "Este perfil", "06",
+    ("EdyVerder", "Este perfil", "06",
      ["Banner em constelação e mapa estelar", "de contribuições, gerados por código e", "atualizados pelo GitHub Actions."],
      ["SVG", "GitHub Actions", "Python"]),
 ]

@@ -1,11 +1,11 @@
 <p align="center">
-  <img src="assets/banner.svg" width="100%" alt="Rocha: o nome desenhado como uma constelação sobre uma nebulosa, com estrelas piscando, uma galáxia espiral girando e estrelas cadentes. Engenharia de dados, automação e ETL." />
+  <img src="assets/banner.svg" width="100%" alt="Verder: o nome desenhado como uma constelação sobre uma nebulosa, com estrelas piscando, uma galáxia espiral girando e estrelas cadentes. Engenharia de dados, automação e ETL." />
 </p>
 
 <p align="center">
-  <a href="https://sites.google.com/view/portfoliorocha/in%C3%ADcio"><img src="https://img.shields.io/badge/portfólio-1a1033?style=for-the-badge&logo=googlechrome&logoColor=ff8a5b" alt="Portfólio" /></a>
+  <a href="https://curriculo-profissional-edy-rocha.lovable.app/"><img src="https://img.shields.io/badge/portfólio-1a1033?style=for-the-badge&logo=googlechrome&logoColor=ff8a5b" alt="Portfólio" /></a>
   <img src="https://img.shields.io/badge/Aracaju%20·%20SE-1a1033?style=for-the-badge&logo=googlemaps&logoColor=ff8a5b" alt="Aracaju, SE" />
-  <img src="https://img.shields.io/badge/ADS%20em%20andamento-1a1033?style=for-the-badge&logo=bookstack&logoColor=ff8a5b" alt="Análise e Desenvolvimento de Sistemas em andamento" />
+  <img src="https://img.shields.io/badge/ADS%20·%20superior%20completo-1a1033?style=for-the-badge&logo=bookstack&logoColor=ff8a5b" alt="Superior completo em Análise e Desenvolvimento de Sistemas" />
 </p>
 
 <h3 align="center">✦ sobre</h3>

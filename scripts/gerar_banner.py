@@ -1,4 +1,4 @@
-"""Gera assets/banner.svg: o nome ROCHA desenhado como constelação sobre uma nebulosa animada.
+"""Gera assets/banner.svg: o nome VERDER desenhado como constelação sobre uma nebulosa animada.
 
 Tudo é SVG puro (sem fonte nem imagem externa), então o GitHub renderiza a animação direto no README.
 Uso: python scripts/gerar_banner.py
@@ -18,8 +18,11 @@ LETRAS = {
     "C": [[(100, 26), (68, 0), (32, 0), (0, 42), (0, 108), (32, 150), (68, 150), (100, 124)]],
     "H": [[(0, 0), (0, 150)], [(100, 0), (100, 150)], [(0, 76), (100, 76)]],
     "A": [[(0, 150), (50, 0), (100, 150)], [(24, 92), (76, 92)]],
+    "V": [[(0, 0), (50, 150), (100, 0)]],
+    "E": [[(100, 0), (0, 0), (0, 150), (100, 150)], [(0, 76), (78, 76)]],
+    "D": [[(0, 0), (0, 150), (58, 150), (100, 108), (100, 42), (58, 0), (0, 0)]],
 }
-NOME, ESCALA, ESPACO, TOPO = "ROCHA", 0.86, 62, 82
+NOME, ESCALA, ESPACO, TOPO = "VERDER", 0.86, 56, 82
 
 
 def estrelas_de_fundo():
@@ -92,8 +95,8 @@ def main():
     linhas, astros = constelacao()
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img"
      aria-labelledby="titulo desc">
-  <title id="titulo">Rocha</title>
-  <desc id="desc">O nome ROCHA desenhado como uma constelação sobre uma nebulosa, com estrelas piscando, uma galáxia
+  <title id="titulo">Verder</title>
+  <desc id="desc">O nome VERDER desenhado como uma constelação sobre uma nebulosa, com estrelas piscando, uma galáxia
   espiral girando e estrelas cadentes. Engenharia de dados, automação e ETL.</desc>
   <defs>
     <radialGradient id="ceu" cx="50%" cy="45%" r="75%">
@@ -155,8 +158,6 @@ def main():
     {linhas}
     {astros}
     <text class="sub surge" x="{W / 2}" y="{TOPO + 150 * ESCALA + 62}" text-anchor="middle">ENGENHARIA DE DADOS  ·  AUTOMAÇÃO  ·  ETL</text>
-    <text class="coord surge" x="28" y="{H - 24}">10°56′S  37°04′W  ·  ARACAJU, BR</text>
-    <text class="coord surge" x="{W - 28}" y="{H - 24}" text-anchor="end">CONSTELAÇÃO ROCHA</text>
     <rect x="0" y="{H - 2}" width="{W}" height="2" fill="url(#borda)" opacity=".8"/>
   </g>
 </svg>

@@ -6,6 +6,7 @@ Fontes: Tektur e IBM Plex Sans, licença OFL (scripts/fontes). O texto vira cont
 fonte instalada. Uso: python -m pip install fonttools && python scripts/gerar_pecas.py
 """
 import html
+import re
 from pathlib import Path
 
 from gerar_banner_fabrica import COR, TEKTUR, Fonte, Glifos, bloco, engrenagem, n, poli
@@ -25,7 +26,15 @@ SELOS = [
     ("ads", "ADS · SUPERIOR COMPLETO", "capelo", False),
 ]
 TITULOS = [("sobre", "SOBRE"), ("em-destaque", "EM DESTAQUE"), ("projetos", "PROJETOS"), ("stack", "STACK"),
-           ("monitor", "MONITOR DE CARGAS")]
+           ("apis", "APIS INTEGRADAS"), ("monitor", "MONITOR DE CARGAS")]
+# APIs com que o dono trabalhou: logotipo oficial em assets/apis/<arquivo>.svg, nome e caixa do logo na placa
+# (largura x altura), ajustada à mão para os quatro terem o mesmo peso visual
+APIS = [
+    ("prevision", "PREVISION", (132, 33)),
+    ("cvcrm", "CV CRM", (128, 37)),
+    ("caixa", "CAIXA", (56, 47)),
+    ("blip", "BLIP", (104, 41)),
+]
 PROJETOS = [
     ("dw-tempo-real", "DW em tempo real", "01", "banco",
      ["Espelho incremental ERP → DW de minuto", "em minuto, por impressão digital de linha", "e com travas contra carga ruim."],
@@ -307,6 +316,114 @@ def stack():
     return documento(W, H, titulo_txt, corpo, defs, css)
 
 
+# ------------------------------------------------------------------------------------------------ APIs integradas
+
+def logo_embutido(nome, x, y, w, h):
+    """Logotipo oficial (assets/apis) como SVG aninhado: vetor nítido em qualquer zoom, com ids e classes
+    prefixados pelo nome para não colidirem com o resto do desenho."""
+    texto = (ASSETS / "apis" / f"{nome}.svg").read_text(encoding="utf-8")
+    m = re.search(r"<svg\b([^>]*)>(.*)</svg>", texto, flags=re.S)
+    atributos, miolo = m.group(1), m.group(2)
+    vb = re.search(r'viewBox="([^"]+)"', atributos).group(1)
+    fill = re.search(r'\sfill="([^"]+)"', atributos)
+    for i in sorted(set(re.findall(r'\bid="([^"]+)"', miolo)), key=len, reverse=True):
+        miolo = (miolo.replace(f'id="{i}"', f'id="{nome}-{i}"').replace(f"url(#{i})", f"url(#{nome}-{i})")
+                 .replace(f'href="#{i}"', f'href="#{nome}-{i}"'))
+    estilos = "".join(re.findall(r"<style[^>]*>(.*?)</style>", miolo, flags=re.S))
+    classes = set(re.findall(r"\.([A-Za-z_][\w-]*)", estilos))
+    if classes:
+        padrao = re.compile(r"\.(" + "|".join(map(re.escape, sorted(classes, key=len, reverse=True))) + r")\b")
+        miolo = re.sub(r"<style([^>]*)>(.*?)</style>",
+                       lambda s: f"<style{s.group(1)}>{padrao.sub(lambda k: f'.{nome}-{k.group(1)}', s.group(2))}</style>",
+                       miolo, flags=re.S)
+        miolo = re.sub(r'class="([^"]*)"',
+                       lambda k: 'class="' + " ".join(f"{nome}-{x}" if x in classes else x for x in k.group(1).split()) + '"',
+                       miolo)
+    raiz = f' fill="{fill.group(1)}"' if fill else ""
+    return (f'<svg x="{n(x)}" y="{n(y)}" width="{n(w)}" height="{n(h)}" viewBox="{vb}" '
+            f'preserveAspectRatio="xMidYMid meet"{raiz}>{miolo}</svg>')
+
+
+def cano(pontos, w, cid=None):
+    """Cano de aço: contorno escuro, corpo e um fio de brilho por cima."""
+    d = "M" + "L".join(f"{n(x)} {n(y)}" for x, y in pontos)
+    return (f'<path d="{d}" fill="none" stroke="{COR["aco0"]}" stroke-width="{n(w + 4)}" stroke-linejoin="round" stroke-linecap="round"/>'
+            f'<path d="{d}" fill="none" stroke="{COR["aco3"]}" stroke-width="{n(w)}" stroke-linejoin="round" stroke-linecap="round"/>'
+            f'<path d="{d}" fill="none" stroke="{COR["aco5"]}" stroke-width="{n(w * 0.22)}" stroke-linecap="round" opacity=".6" '
+            f'transform="translate({n(-w * 0.18)} {n(-w * 0.18)})"/>')
+
+
+def apis():
+    """Um coletor de canos recebe o fluxo pelo alto e distribui para quatro placas aparafusadas, uma por API.
+    O dado corre nos canos (traços animados) e cada placa tem a luz de status acesa."""
+    c = COR
+    g = Glifos("x")
+    W, H = 880, 232
+    centros = [W * (2 * k + 1) / 8 for k in range(len(APIS))]
+    pw, ph, y_placa, y_col = 176, 96, 82, 42
+    tam_nome = TK900.tamanho_para_cap(10.5)
+    # coletor: entra pelo meio, vindo de cima, e corre até as pontas; de lá desce um cano para cada placa
+    canos = (cano([(W / 2, -6), (W / 2, y_col)], 11) + cano([(centros[0], y_col), (centros[-1], y_col)], 12)
+             + "".join(cano([(x, y_col), (x, y_placa - 2)], 9) for x in centros))
+    juntas = (f'<rect x="{n(W / 2 - 13)}" y="14" width="26" height="7" rx="2" fill="{c["aco4"]}"/>'
+              + "".join(f'<rect x="{n(x - 11)}" y="{y_placa - 14}" width="22" height="6" rx="2" fill="{c["aco4"]}"/>' for x in centros)
+              + "".join(f'<rect x="{n(x - 3.5)}" y="{y_col - 11}" width="7" height="22" rx="2" fill="{c["aco4"]}"/>'
+                        for x in ((centros[0] + W / 2) / 2, (centros[-1] + W / 2) / 2)))
+    # válvula na entrada
+    valvula = (f'<circle cx="{n(W / 2)}" cy="28" r="8" fill="none" stroke="{c["brasa"]}" stroke-width="3"/>'
+               + "".join(f'<path d="M{n(W / 2)} 28l{n(dx)} {n(dy)}" stroke="{c["brasa"]}" stroke-width="2"/>'
+                         for dx, dy in ((8, 0), (-8, 0), (0, 8), (0, -8)))
+               + f'<circle cx="{n(W / 2)}" cy="28" r="2.4" fill="{c["brasa2"]}"/>')
+    # fluxo: traços claros correndo por dentro dos canos, do meio para as pontas e para baixo
+    def fluxo(pontos, atraso):
+        d = "M" + "L".join(f"{n(x)} {n(y)}" for x, y in pontos)
+        return (f'<path class="flui" style="animation-delay:-{atraso:.2f}s" d="{d}" fill="none" stroke="{c["dado_claro"]}" '
+                f'stroke-width="2.6" stroke-linecap="round" stroke-dasharray="7 15"/>')
+    fluxos = (fluxo([(W / 2, -6), (W / 2, y_col)], 0) + fluxo([(W / 2, y_col), (centros[0], y_col)], .3)
+              + fluxo([(W / 2, y_col), (centros[-1], y_col)], .3)
+              + "".join(fluxo([(x, y_col), (x, y_placa - 2)], .6 + k * .15) for k, x in enumerate(centros)))
+    placas = []
+    for k, ((arq, nome, (lw, lh)), cx) in enumerate(zip(APIS, centros)):
+        x0 = cx - pw / 2
+        parafusos = "".join(f'<circle cx="{n(px)}" cy="{n(py)}" r="3" fill="{c["aco4"]}"/>'
+                            f'<path d="M{n(px - 1.8)} {n(py + 1.8)}l3.6 -3.6" stroke="{c["aco1"]}" stroke-width="1.1"/>'
+                            for px in (x0 + 11, x0 + pw - 11) for py in (y_placa + 11, y_placa + ph - 11))
+        rot, _ = g.escrever(TK900, tam_nome, nome, cx, y_placa + ph + 30, 2.2, "middle")
+        placas.append(
+            f'<rect x="{n(x0 + 3)}" y="{y_placa + 5}" width="{pw}" height="{ph}" rx="11" fill="#000" opacity=".35"/>'
+            f'<rect x="{n(x0)}" y="{y_placa}" width="{pw}" height="{ph}" rx="11" fill="url(#placa)" stroke="{c["aco4"]}"/>'
+            f'<rect x="{n(x0 + 4)}" y="{y_placa + 4}" width="{pw - 8}" height="{ph - 8}" rx="8" fill="none" stroke="#d5dceb"/>'
+            f'<rect x="{n(cx - 26)}" y="{y_placa}" width="52" height="3.5" rx="1.5" fill="{c["dado"]}"/>'
+            + parafusos
+            + logo_embutido(arq, cx - lw / 2, y_placa + ph / 2 - lh / 2 + 1, lw, lh)
+            + f'<circle class="led" style="animation-delay:-{k * .6:.1f}s" cx="{n(x0 + pw - 24)}" cy="{y_placa + 11}" r="2.6" fill="{c["dado"]}"/>'
+            f'<g class="passa" style="animation-delay:-{k * 1.4:.1f}s" clip-path="url(#cp{k})">'
+            f'<rect x="{n(x0 - 70)}" y="{y_placa}" width="50" height="{ph}" fill="url(#reflexo)" transform="skewX(-16)"/></g>'
+            + f'<g fill="{c["texto"]}">{rot}</g>')
+        placas.append(f'<clipPath id="cp{k}"><rect x="{n(x0)}" y="{y_placa}" width="{pw}" height="{ph}" rx="11"/></clipPath>')
+    defs = ("".join(g.defs)
+            + f'<linearGradient id="painel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{c["aco1"]}"/>'
+              f'<stop offset="1" stop-color="{c["parede2"]}"/></linearGradient>'
+            + f'<pattern id="pontos" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r=".9" fill="#2b3b5e"/></pattern>'
+            + '<linearGradient id="placa" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/>'
+              '<stop offset="1" stop-color="#eef2f9"/></linearGradient>'
+            + '<linearGradient id="reflexo" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/>'
+              '<stop offset=".5" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>'
+            + f'<clipPath id="moldura"><rect width="{W}" height="{H}" rx="14"/></clipPath>')
+    css = ("@keyframes flui{to{stroke-dashoffset:-44}}.flui{animation:flui 1.1s linear infinite}"
+           "@keyframes led{0%,100%{opacity:1}50%{opacity:.2}}.led{animation:led 2.4s ease-in-out infinite}"
+           f"@keyframes passa{{0%{{transform:translateX(0)}}40%,100%{{transform:translateX({pw + 120}px)}}}}"
+           ".passa{animation:passa 5.6s ease-in-out infinite}")
+    corpo = (f'<g clip-path="url(#moldura)"><rect width="{W}" height="{H}" fill="url(#painel)"/>'
+             f'<rect width="{W}" height="{H}" fill="url(#pontos)" opacity=".5"/>'
+             + canos + fluxos + juntas + valvula + "".join(p for p in placas if not p.startswith("<clipPath"))
+             + '</g>'
+             + f'<rect x=".5" y=".5" width="{W - 1}" height="{H - 1}" rx="13.5" fill="none" stroke="{c["aco2"]}"/>')
+    defs += "".join(p for p in placas if p.startswith("<clipPath"))
+    nomes = ", ".join(nome.title() if nome != "CV CRM" else nome for _, nome, _ in APIS)
+    return documento(W, H, f"APIs integradas: {nomes}", corpo, defs, css)
+
+
 def gravar(caminho, conteudo):
     caminho.parent.mkdir(parents=True, exist_ok=True)
     caminho.write_text(conteudo, encoding="utf-8")
@@ -322,7 +439,8 @@ def main():
     for repo, nome, numero, icn, linhas, tags in PROJETOS:
         total += gravar(ASSETS / "cards" / f"{repo}.svg", cartao(repo, nome, numero, icn, linhas, tags))
     total += gravar(ASSETS / "stack.svg", stack())
-    print(f"{len(SELOS)} selos, {len(TITULOS)} títulos, {len(PROJETOS)} cartões e a stack: {total:.0f} KB no total")
+    total += gravar(ASSETS / "apis.svg", apis())
+    print(f"{len(SELOS)} selos, {len(TITULOS)} títulos, {len(PROJETOS)} cartões, a stack e as APIs: {total:.0f} KB no total")
 
 
 if __name__ == "__main__":

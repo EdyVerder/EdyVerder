@@ -50,6 +50,12 @@
   <picture><img src="assets/stack.svg" width="880" alt="Stack. Dados: Python, SQL Server, pandas, SQLite, Pentaho PDI e Apache Hop. Automação: Playwright, Selenium, pywinauto, PowerShell e GitHub Actions. Web e IA: FastAPI, JavaScript, Excel com openpyxl, Claude API e Git." /></picture>
 </p>
 
+<p align="center"><picture><img src="assets/titulos/apis.svg" width="880" alt="APIs integradas" /></picture></p>
+
+<p align="center">
+  <picture><img src="assets/apis.svg" width="880" alt="APIs integradas: Prevision, CV CRM, Caixa e Blip" /></picture>
+</p>
+
 <p align="center"><picture><img src="assets/titulos/monitor.svg" width="880" alt="Monitor de cargas" /></picture></p>
 
 <p align="center">

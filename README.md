@@ -3,10 +3,10 @@
 </p>
 
 <p align="center">
-  <a href="https://curriculo-profissional-edy-rocha.lovable.app/"><img src="assets/selos/portfolio.svg" height="40" alt="Portfólio" /></a>
-  <a href="https://www.linkedin.com/in/edy-rocha-0119a325b/"><img src="assets/selos/linkedin.svg" height="40" alt="LinkedIn" /></a>
-  <picture><img src="assets/selos/aracaju.svg" height="40" alt="Aracaju, SE" /></picture>
-  <picture><img src="assets/selos/ads.svg" height="40" alt="Superior completo em Análise e Desenvolvimento de Sistemas" /></picture>
+  <a href="https://curriculo-profissional-edy-rocha.lovable.app/"><img src="assets/selos/portfolio.svg" height="36" alt="Portfólio" /></a>
+  <a href="https://www.linkedin.com/in/edy-rocha-0119a325b/"><img src="assets/selos/linkedin.svg" height="36" alt="LinkedIn" /></a>
+  <picture><img src="assets/selos/aracaju.svg" height="36" alt="Aracaju, SE" /></picture>
+  <picture><img src="assets/selos/ads.svg" height="36" alt="Superior completo em Análise e Desenvolvimento de Sistemas" /></picture>
 </p>
 
 <p align="center"><picture><img src="assets/titulos/sobre.svg" width="880" alt="Sobre" /></picture></p>

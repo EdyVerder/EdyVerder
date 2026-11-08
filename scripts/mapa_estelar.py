@@ -59,9 +59,31 @@ def sequencias(dias):
     return atual, maior
 
 
+def sorteio(chave):
+    """Número entre 0 e 1 fixo para cada chave (o céu não muda de lugar a cada atualização)."""
+    return int(hashlib.md5(chave.encode()).hexdigest()[:6], 16) / 0xFFFFFF
+
+
 def tremor(data, eixo):
-    """Deslocamento fixo por data (o céu não muda de lugar a cada atualização)."""
-    return int(hashlib.md5(f"{data}{eixo}".encode()).hexdigest()[:4], 16) / 0xFFFF * 10 - 5
+    return sorteio(f"{data}{eixo}") * 14 - 7
+
+
+def ceu_de_fundo():
+    """Nebulosa e estrelas de fundo: o mapa parece céu mesmo num ano com poucas contribuições."""
+    nuvens = ('<g filter="url(#nevoa)" opacity=".9">'
+              '<ellipse cx="230" cy="250" rx="260" ry="90" fill="#6d28d9" opacity=".30"/>'
+              '<ellipse cx="640" cy="230" rx="300" ry="70" fill="#ff8a5b" opacity=".10"/>'
+              '<ellipse cx="1000" cy="280" rx="240" ry="95" fill="#be185d" opacity=".18"/>'
+              '<ellipse cx="1060" cy="120" rx="180" ry="70" fill="#1d4ed8" opacity=".22"/></g>')
+    pontos = []
+    for i in range(170):
+        x, y = 20 + sorteio(f"fx{i}") * (W - 40), 20 + sorteio(f"fy{i}") * (H - 30)
+        r = 0.4 + sorteio(f"fr{i}") * 0.8
+        op = 0.12 + sorteio(f"fo{i}") * 0.38
+        cor = "#ffffff" if sorteio(f"fc{i}") < 0.7 else "#c9b8ff"
+        pisca = ' class="brilho" style="animation-delay:-%.1fs"' % (sorteio(f"fd{i}") * 5) if i % 4 == 0 else ""
+        pontos.append(f'<circle cx="{x:.0f}" cy="{y:.0f}" r="{r:.1f}" fill="{cor}" opacity="{op:.2f}"{pisca}/>')
+    return nuvens + "".join(pontos)
 
 
 def visivel(cor):
@@ -112,7 +134,9 @@ def gerar(usuario, hoje):
             pos[d["date"]] = (x, y)
             nivel = NIVEL.get(d["contributionLevel"], 0)
             if nivel == 0:
-                estrelas.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r=".9" fill="#8f86b8" opacity=".28"/>')
+                r0 = 0.6 + sorteio(d["date"] + "r") * 0.6
+                op0 = 0.16 + sorteio(d["date"] + "o") * 0.22
+                estrelas.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r0:.2f}" fill="#a49bd0" opacity="{op0:.2f}"/>')
                 continue
             raio = [0, 1.7, 2.3, 3.0, 3.7][nivel]
             cor = ["", "#cfd8ff", "#e6dcff", "#ffd2bd", "#ff9e72"][nivel]
@@ -168,6 +192,8 @@ def gerar(usuario, hoje):
       <stop offset=".5" stop-color="#ff8a5b" stop-opacity=".7"/><stop offset="1" stop-color="#7c3aed" stop-opacity=".1"/>
     </linearGradient>
     <clipPath id="arred"><rect x="64" y="398" width="{W - 128}" height="6" rx="3"/></clipPath>
+    <clipPath id="cartao"><rect x="1" y="1" width="{W - 2}" height="{H + 14}" rx="18"/></clipPath>
+    <filter id="nevoa" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="42"/></filter>
     {halos}
   </defs>
   <style>
@@ -184,8 +210,12 @@ def gerar(usuario, hoje):
       animation:radar 2.6s ease-out infinite}}
     .radar.b{{animation-delay:1.3s}}
     @keyframes radar{{from{{opacity:.9;transform:scale(.5)}}to{{opacity:0;transform:scale(2.6)}}}}
+    .brilho{{animation:brilho 4.5s ease-in-out infinite alternate}}
+    @keyframes brilho{{from{{opacity:.08}}to{{opacity:.6}}}}
   </style>
-  <rect x=".5" y=".5" width="{W - 1}" height="{H + 15}" rx="18" fill="url(#ceu)" stroke="#2a2346"/>
+  <rect x=".5" y=".5" width="{W - 1}" height="{H + 15}" rx="18" fill="url(#ceu)"/>
+  <g clip-path="url(#cartao)">{ceu_de_fundo()}</g>
+  <rect x=".5" y=".5" width="{W - 1}" height="{H + 15}" rx="18" fill="none" stroke="#2a2346"/>
   <text x="64" y="52" class="tit">MAPA ESTELAR DE CONTRIBUIÇÕES</text>
   <text x="{W - 64}" y="52" class="data" text-anchor="end">atualizado em {hoje:%d/%m/%Y}</text>
   <rect x="64" y="66" width="{W - 128}" height="1" fill="url(#borda)"/>

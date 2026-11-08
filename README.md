@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.svg" width="100%" alt="Verder: o nome desenhado como uma constelação sobre uma nebulosa, com estrelas piscando, uma galáxia espiral girando e estrelas cadentes. Engenharia de dados, automação e ETL." />
+  <img src="assets/banner.svg" width="100%" alt="VERDER em letras grossas sobre um pipeline de dados em movimento: banco, API e planilha alimentam as engrenagens da transformação, que carregam o data warehouse; um orquestrador entrega os dados a um painel, a um e-mail e a um robô. Engenharia de dados, automação e ETL." />
 </p>
 
 <p align="center">

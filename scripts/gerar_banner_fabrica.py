@@ -338,13 +338,13 @@ class Banner:
                 f'<rect y="368" width="{W}" height="1.5" fill="#26365a"/>'
                 f'<rect y="386" width="{W}" height="2" fill="{c["brasa"]}" opacity=".22"/>')
 
-    # -- placa VERDER + subtítulo --------------------------------------------
+    # -- placa ROCHA + subtítulo --------------------------------------------
     def placa(self):
         c = COR
         cap = 104
         tam = self.tk900.tamanho_para_cap(cap)
         base = 136
-        d, larg = self.tk900.caminho("VERDER", tam, 600, base, espaco=4, ancora="middle")
+        d, larg = self.tk900.caminho("ROCHA", tam, 600, base, espaco=4, ancora="middle")
         self.defs.append(f'<path id="vd" d="{d}"/>')
         self.defs.append(
             f'<linearGradient id="face" x1="0" y1="{base - cap}" x2="0" y2="{base}" gradientUnits="userSpaceOnUse">'
@@ -628,8 +628,8 @@ class Banner:
                  + brutos + tratados + frente + sombra_vao + armazem + braco + placa)
         defs = "".join(self.defs) + "".join(self.glifos.defs)
         svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" '
-               f'aria-labelledby="t d"><title id="t">Verder</title>'
-               f'<desc id="d">Placa industrial com o nome VERDER e o subtítulo Engenharia de dados, automação e ETL, '
+               f'aria-labelledby="t d"><title id="t">Rocha</title>'
+               f'<desc id="d">Placa industrial com o nome ROCHA e o subtítulo Engenharia de dados, automação e ETL, '
                f'sobre uma fábrica de dados animada: um silo ERP despeja registros brutos numa esteira, um braço '
                f'robótico pega cada registro, transforma e devolve à esteira, que leva os blocos tratados para o '
                f'armazém DW; engrenagens giram e as prateleiras do armazém acendem conforme a carga chega.</desc>'

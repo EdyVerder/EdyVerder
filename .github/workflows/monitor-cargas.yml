@@ -1,4 +1,4 @@
-name: mapa estelar
+name: monitor de cargas
 
 on:
   schedule:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ["scripts/mapa_estelar.py", ".github/workflows/mapa-estelar.yml"]
+    paths: ["scripts/painel_cargas.py", "scripts/gerar_banner_fabrica.py", ".github/workflows/monitor-cargas.yml"]
 
 permissions:
   contents: write
@@ -17,12 +17,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Gera o mapa a partir das contribuições do último ano
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instala o fontTools (o texto do painel vira contorno)
+        run: python -m pip install --quiet fonttools
+
+      - name: Gera o painel com as contribuições do último ano
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           mkdir -p saida
-          python3 scripts/mapa_estelar.py "${{ github.repository_owner }}" saida/mapa-estelar.svg
+          python scripts/painel_cargas.py "${{ github.repository_owner }}" saida/painel-cargas.svg
 
       - name: Publica na branch output (só o SVG, sem histórico)
         env:
@@ -32,6 +39,6 @@ jobs:
           git init -q -b output
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add mapa-estelar.svg
-          git commit -q -m "mapa estelar $(date -u +%F)"
+          git add painel-cargas.svg
+          git commit -q -m "monitor de cargas $(date -u +%F)"
           git push -q -f "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git" output

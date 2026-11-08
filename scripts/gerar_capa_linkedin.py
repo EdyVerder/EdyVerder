@@ -156,15 +156,17 @@ def main():
 
     # chamada à esquerda (a foto do perfil cobre o canto de baixo, então tudo fica no alto). No computador o
     # LinkedIn mostra a capa com cerca de metade da largura, por isso letras maiores que na versão anterior.
-    sob, _ = texto(TK700, 12.5, "ENGENHARIA DE DADOS · AUTOMAÇÃO · ETL", 50, 56, c["brasa"], 2.2)
-    l1, _ = texto(TK900, 33, "DO DADO BRUTO", 48, 109, "#ffffff", 2)
-    l2, _ = texto(TK900, 33, "À DECISÃO", 48, 158, c["dado"], 2)
+    # O bloco fica no alto e um pouco menor: no LinkedIn a foto do perfil sobe até ~y 230 nesta escala, e o
+    # endereço do GitHub precisa de folga dela (pedido do dono em 08/11, depois de ver a capa publicada).
+    sob, _ = texto(TK700, 11.5, "ENGENHARIA DE DADOS · AUTOMAÇÃO · ETL", 50, 47, c["brasa"], 2.2)
+    l1, _ = texto(TK900, 30, "DO DADO BRUTO", 48, 95, "#ffffff", 2)
+    l2, _ = texto(TK900, 30, "À DECISÃO", 48, 139, c["dado"], 2)
     # endereço do GitHub como na primeira capa: bolinha verde acesa, "github.com/" em branco e o nome em verde-água
-    u1, larg1 = texto(TK900, 17, "github.com/", 80, 201, "#e9eff9", 1.2)
-    u2, _ = texto(TK900, 17, "EdyVerder", 80 + larg1 + 1, 201, c["dado"], 1.2)
-    url = (f'<circle cx="59" cy="192.5" r="12" fill="{c["dado"]}" opacity=".16"/>'
-           f'<circle cx="59" cy="192.5" r="7" fill="{c["dado"]}" opacity=".35"/>'
-           f'<circle cx="59" cy="192.5" r="5" fill="{c["dado"]}" filter="url(#brilho)"/>' + u1 + u2)
+    u1, larg1 = texto(TK900, 15, "github.com/", 77, 174, "#e9eff9", 1.2)
+    u2, _ = texto(TK900, 15, "EdyVerder", 77 + larg1 + 1, 174, c["dado"], 1.2)
+    url = (f'<circle cx="58" cy="166.5" r="11" fill="{c["dado"]}" opacity=".16"/>'
+           f'<circle cx="58" cy="166.5" r="6.5" fill="{c["dado"]}" opacity=".35"/>'
+           f'<circle cx="58" cy="166.5" r="4.6" fill="{c["dado"]}" filter="url(#brilho)"/>' + u1 + u2)
     chamada = sob + f'<g transform="translate(2.2 2.2)" opacity=".55">{l1.replace(chr(34) + "#ffffff" + chr(34), chr(34) + c["brasa4"] + chr(34))}</g>' + l1 + l2 + url
 
     # tanques de origem

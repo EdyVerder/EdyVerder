@@ -31,14 +31,48 @@ def placa(cx, cy, rotulo, cor_txt="#ffffff", cap=11, pad=11):
 
 
 def cilindro(x, topo, w, h, ry=None, faixas=()):
-    """Tanque em pé: corpo com sombreado de cilindro, tampa elíptica e anéis."""
+    """Tanque em pé: corpo com sombreado de cilindro, tampa elíptica e anéis. Luz quente vem da esquerda
+    (onde está o texto) e luz fria da direita (o brilho do DW), por isso as duas bordas acesas."""
     ry = ry or w * 0.16
+    cx = x + w / 2
     corpo = (f'M{n(x)} {n(topo)}V{n(topo + h)}A{n(w / 2)} {n(ry)} 0 0 0 {n(x + w)} {n(topo + h)}V{n(topo)}Z')
     aneis = "".join(f'<path d="M{n(x)} {n(topo + f)}A{n(w / 2)} {n(ry)} 0 0 0 {n(x + w)} {n(topo + f)}" '
-                    f'fill="none" stroke="{c["aco0"]}" stroke-width="3" opacity=".7"/>' for f in faixas)
-    return (f'<path d="{corpo}" fill="url(#cil)"/>{aneis}'
-            f'<ellipse cx="{n(x + w / 2)}" cy="{n(topo)}" rx="{n(w / 2)}" ry="{n(ry)}" fill="{c["aco4"]}"/>'
-            f'<ellipse cx="{n(x + w / 2)}" cy="{n(topo)}" rx="{n(w / 2 - 5)}" ry="{n(ry - 3)}" fill="{c["aco3"]}"/>')
+                    f'fill="none" stroke="{c["aco0"]}" stroke-width="3" opacity=".7"/>'
+                    f'<path d="M{n(x)} {n(topo + f + 2.5)}A{n(w / 2)} {n(ry)} 0 0 0 {n(x + w)} {n(topo + f + 2.5)}" '
+                    f'fill="none" stroke="{c["aco5"]}" stroke-width="1" opacity=".35"/>' for f in faixas)
+
+    def fundo_y(xx):   # altura da borda de baixo (arco) na posição xx
+        t = (xx - cx) / (w / 2)
+        return topo + h + ry * math.sqrt(max(0.0, 1 - t * t))
+
+    x1, x2 = x + w * 0.19, x + w * 0.27
+    reflexo = (f'<path d="M{n(x1)} {n(topo)}L{n(x2)} {n(topo)}L{n(x2)} {n(fundo_y(x2))}L{n(x1)} {n(fundo_y(x1))}Z" '
+               f'fill="#ffffff" opacity=".075"/>')
+    bordas = (f'<path d="M{n(x + 1.3)} {n(topo + 3)}V{n(topo + h - 2)}" stroke="{c["brasa_clara"]}" stroke-opacity=".3" stroke-width="1.6"/>'
+              f'<path d="M{n(x + w - 1.3)} {n(topo + 3)}V{n(topo + h - 2)}" stroke="{c["dado"]}" stroke-opacity=".3" stroke-width="1.6"/>')
+    aro = (f'<path d="M{n(x + 1)} {n(topo)}A{n(w / 2 - 1)} {n(ry - 1)} 0 0 0 {n(x + w - 1)} {n(topo)}" fill="none" '
+           f'stroke="{c["aco5"]}" stroke-width="1.5" opacity=".9"/>')
+    return (f'<path d="{corpo}" fill="url(#cil)"/>{aneis}{reflexo}{bordas}'
+            f'<ellipse cx="{n(cx)}" cy="{n(topo)}" rx="{n(w / 2)}" ry="{n(ry)}" fill="{c["aco4"]}"/>'
+            f'<ellipse cx="{n(cx)}" cy="{n(topo)}" rx="{n(w / 2 - 5)}" ry="{n(ry - 3)}" fill="{c["aco3"]}"/>' + aro)
+
+
+def sombra(cx, largura):
+    """Sombra de contato no piso, para o tanque não parecer flutuar."""
+    return (f'<ellipse cx="{n(cx)}" cy="{PISO + 1}" rx="{n(largura * 0.62)}" ry="6" fill="#000" opacity=".55" '
+            f'filter="url(#sombra)"/>')
+
+
+def pulso(x, y, comprimento, tratado, vertical=False):
+    """Pulso de luz correndo no cano: rastro que acende até a cabeça. Laranja antes do ETL (dado bruto),
+    verde-água depois (dado tratado)."""
+    rastro = "rastroDv" if vertical else ("rastroD" if tratado else "rastroB")
+    cabeca = c["dado_claro"] if tratado else c["brasa_clara"]
+    if vertical:
+        corpo = f'<rect x="{n(x - 2.2)}" y="{n(y - comprimento)}" width="4.4" height="{n(comprimento)}" rx="2.2" fill="url(#{rastro})"/>'
+    else:
+        corpo = f'<rect x="{n(x - comprimento)}" y="{n(y - 2.2)}" width="{n(comprimento)}" height="4.4" rx="2.2" fill="url(#{rastro})"/>'
+    return f'<g filter="url(#brilho)">{corpo}<circle cx="{n(x)}" cy="{n(y)}" r="3.4" fill="{cabeca}"/></g>'
 
 
 def tubo(pontos, w=12):
@@ -93,22 +127,44 @@ def main():
         f'<stop offset="1" stop-color="{c["brasa"]}" stop-opacity="0"/></radialGradient>'
         f'<radialGradient id="luzDw" cx="1150" cy="230" r="300" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="{c["dado"]}" stop-opacity=".16"/>'
         f'<stop offset="1" stop-color="{c["dado"]}" stop-opacity="0"/></radialGradient>'
-        f'<pattern id="pontos" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="12" cy="12" r="1" fill="#2b3b5e"/></pattern>')
-    fundo = (f'<rect width="{W}" height="{H}" fill="url(#parede)"/><rect width="{W}" height="{PISO}" fill="url(#pontos)" opacity=".55"/>'
+        f'<pattern id="pontos" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="12" cy="12" r="1" fill="#2b3b5e"/></pattern>'
+        # brilho (luz que vaza dos visores, do painel e dos pulsos), halo largo e sombra de contato
+        f'<filter id="brilho" filterUnits="userSpaceOnUse" x="-200" y="-200" width="{W + 400}" height="{H + 400}">'
+        f'<feGaussianBlur stdDeviation="3.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/>'
+        f'<feMergeNode in="SourceGraphic"/></feMerge></filter>'
+        f'<filter id="halo" filterUnits="userSpaceOnUse" x="-200" y="-200" width="{W + 400}" height="{H + 400}">'
+        f'<feGaussianBlur stdDeviation="18"/></filter>'
+        f'<filter id="sombra" filterUnits="userSpaceOnUse" x="-200" y="-200" width="{W + 400}" height="{H + 400}">'
+        f'<feGaussianBlur stdDeviation="3.5"/></filter>'
+        f'<linearGradient id="rastroB" x1="0" x2="1"><stop offset="0" stop-color="{c["brasa"]}" stop-opacity="0"/>'
+        f'<stop offset="1" stop-color="{c["brasa_clara"]}"/></linearGradient>'
+        f'<linearGradient id="rastroD" x1="0" x2="1"><stop offset="0" stop-color="{c["dado"]}" stop-opacity="0"/>'
+        f'<stop offset="1" stop-color="{c["dado_claro"]}"/></linearGradient>'
+        f'<linearGradient id="rastroDv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{c["dado"]}" stop-opacity="0"/>'
+        f'<stop offset="1" stop-color="{c["dado_claro"]}"/></linearGradient>'
+        # reflexo da fábrica no piso, sumindo para baixo
+        f'<linearGradient id="reflexoG" x1="0" y1="{PISO}" x2="0" y2="{H}" gradientUnits="userSpaceOnUse">'
+        f'<stop offset="0" stop-color="#fff" stop-opacity=".3"/><stop offset=".85" stop-color="#fff" stop-opacity="0"/></linearGradient>'
+        # a planta termina no piso (o fundo dos tanques não invade o chão; espelhado, vira o recorte do reflexo)
+        f'<clipPath id="acimaPiso"><rect x="0" y="-100" width="{W}" height="{PISO + 100}"/></clipPath>'
+        f'<mask id="reflexo" maskUnits="userSpaceOnUse" x="0" y="{PISO}" width="{W}" height="{H - PISO}">'
+        f'<rect x="0" y="{PISO}" width="{W}" height="{H - PISO}" fill="url(#reflexoG)"/></mask>')
+    fundo = (f'<rect width="{W}" height="{H}" fill="url(#parede)"/><rect width="{W}" height="{PISO}" fill="url(#pontos)" opacity=".45"/>'
              f'<rect width="{W}" height="{H}" fill="url(#luzEsq)"/><rect width="{W}" height="{H}" fill="url(#luzDw)"/>'
              f'<rect y="{PISO}" width="{W}" height="{H - PISO}" fill="{c["piso"]}"/><rect y="{PISO}" width="{W}" height="1.5" fill="#26365a"/>'
              f'<rect y="{PISO + 30}" width="{W}" height="2" fill="{c["brasa"]}" opacity=".22"/>')
 
-    # chamada à esquerda (a foto do perfil cobre o canto de baixo, então tudo fica no alto)
-    sob, _ = texto(TK700, 10.5, "ENGENHARIA DE DADOS · AUTOMAÇÃO · ETL", 50, 54, c["brasa"], 2.6)
-    l1, _ = texto(TK900, 31, "DO DADO BRUTO", 48, 104, "#ffffff", 2)
-    l2, _ = texto(TK900, 31, "À DECISÃO", 48, 150, c["dado"], 2)
+    # chamada à esquerda (a foto do perfil cobre o canto de baixo, então tudo fica no alto). No computador o
+    # LinkedIn mostra a capa com cerca de metade da largura, por isso letras maiores que na versão anterior.
+    sob, _ = texto(TK700, 12.5, "ENGENHARIA DE DADOS · AUTOMAÇÃO · ETL", 50, 56, c["brasa"], 2.2)
+    l1, _ = texto(TK900, 33, "DO DADO BRUTO", 48, 109, "#ffffff", 2)
+    l2, _ = texto(TK900, 33, "À DECISÃO", 48, 158, c["dado"], 2)
     # endereço do GitHub como na primeira capa: bolinha verde acesa, "github.com/" em branco e o nome em verde-água
-    u1, larg1 = texto(TK900, 15, "github.com/", 76, 189, "#e9eff9", 1.2)
-    u2, _ = texto(TK900, 15, "EdyVerder", 76 + larg1 + 1, 189, c["dado"], 1.2)
-    url = (f'<circle cx="58" cy="181.5" r="11" fill="{c["dado"]}" opacity=".16"/>'
-           f'<circle cx="58" cy="181.5" r="6.5" fill="{c["dado"]}" opacity=".35"/>'
-           f'<circle cx="58" cy="181.5" r="4.5" fill="{c["dado"]}"/>' + u1 + u2)
+    u1, larg1 = texto(TK900, 17, "github.com/", 80, 201, "#e9eff9", 1.2)
+    u2, _ = texto(TK900, 17, "EdyVerder", 80 + larg1 + 1, 201, c["dado"], 1.2)
+    url = (f'<circle cx="59" cy="192.5" r="12" fill="{c["dado"]}" opacity=".16"/>'
+           f'<circle cx="59" cy="192.5" r="7" fill="{c["dado"]}" opacity=".35"/>'
+           f'<circle cx="59" cy="192.5" r="5" fill="{c["dado"]}" filter="url(#brilho)"/>' + u1 + u2)
     chamada = sob + f'<g transform="translate(2.2 2.2)" opacity=".55">{l1.replace(chr(34) + "#ffffff" + chr(34), chr(34) + c["brasa4"] + chr(34))}</g>' + l1 + l2 + url
 
     # tanques de origem
@@ -133,7 +189,8 @@ def main():
     dl, faixa = listras(cx0, ctopo + 18, cw, 12, "lc")
     defs.append(dl)
     visores = "".join(f'<rect x="{cx0 + 30}" y="{y}" width="32" height="14" rx="3" fill="#0b2a2a" stroke="{c["aco0"]}"/>'
-                      f'<rect x="{cx0 + 33}" y="{y + 3}" width="26" height="8" rx="2" fill="{c["dado"]}" opacity="{op}"/>'
+                      f'<rect x="{cx0 + 33}" y="{y + 3}" width="26" height="8" rx="2" fill="{c["dado"]}" opacity="{op}" '
+                      f'filter="url(#brilho)"/>'
                       for y, op in ((132, .35), (180, .6), (228, .85), (276, 1)))
     chamine = (f'<rect x="{cx0 + 38}" y="{ctopo - 26}" width="16" height="22" fill="{c["aco2"]}"/>'
                f'<rect x="{cx0 + 35}" y="{ctopo - 30}" width="22" height="6" rx="1.5" fill="{c["aco4"]}"/>'
@@ -154,20 +211,25 @@ def main():
     dw = (cilindro(dx0, dtopo, dw_, PISO - dtopo - 10, ry=22, faixas=(58, 118))
           + f'<rect x="{dx0 - 8}" y="{PISO - 12}" width="{dw_ + 16}" height="12" fill="{c["aco2"]}"/>'
           + f'<rect x="{dx0 + 22}" y="{dtopo + 40}" width="20" height="132" rx="4" fill="#0b2a2a" stroke="{c["aco0"]}" stroke-width="2"/>'
-          + f'<rect x="{dx0 + 25}" y="{dtopo + 74}" width="14" height="95" rx="2" fill="url(#nivel)"/>'
+          + f'<rect x="{dx0 + 25}" y="{dtopo + 74}" width="14" height="95" rx="2" fill="url(#nivel)" filter="url(#brilho)"/>'
           + placa(dx0 + dw_ / 2 + 14, dtopo + 92, "DW", cor_txt=c["dado_claro"], cap=22, pad=14))
     # painel de BI
     px0, py0, pw, ph = 1300, 112, 236, 168
     barras = "".join(f'<rect x="{px0 + 22 + k * 24}" y="{py0 + ph - 24 - hgt}" width="14" height="{hgt}" rx="2" '
                      f'fill="{c["dado"] if k % 3 else c["brasa"]}"/>' for k, hgt in enumerate((38, 62, 50, 84, 70, 98)))
     linha = "M" + "L".join(f"{n(px0 + 166 + k * 10)} {n(py0 + 70 - 26 * math.sin(k / 1.6) - k * 3)}" for k in range(6))
-    painel = (f'<rect x="{px0 + pw / 2 - 6}" y="{py0 + ph}" width="12" height="{PISO - py0 - ph - 6}" fill="{c["aco2"]}"/>'
+    painel = (f'<rect x="{px0 - 4}" y="{py0 - 4}" width="{pw + 8}" height="{ph + 8}" rx="14" fill="{c["dado"]}" opacity=".16" '
+              f'filter="url(#halo)"/>'
+              f'<rect x="{px0 + pw / 2 - 6}" y="{py0 + ph}" width="12" height="{PISO - py0 - ph - 6}" fill="{c["aco2"]}"/>'
               f'<rect x="{px0 + pw / 2 - 34}" y="{PISO - 8}" width="68" height="8" rx="2" fill="{c["aco3"]}"/>'
-              f'<rect x="{px0 - 8}" y="{py0 - 8}" width="{pw + 16}" height="{ph + 16}" rx="12" fill="{c["aco1"]}" stroke="{c["aco3"]}"/>'
+              f'<rect x="{px0 - 8}" y="{py0 - 8}" width="{pw + 16}" height="{ph + 16}" rx="12" fill="{c["aco1"]}" stroke="{c["aco4"]}" stroke-width="1.5"/>'
               f'<rect x="{px0}" y="{py0}" width="{pw}" height="{ph}" rx="6" fill="#070b14"/>'
+              f'<rect x="{px0}" y="{py0}" width="{pw}" height="{ph}" rx="6" fill="url(#luzTela)"/>'
               f'<rect x="{px0 + 14}" y="{py0 + 14}" width="64" height="7" rx="3.5" fill="#2e4068"/>'
-              f'<circle cx="{px0 + pw - 18}" cy="{py0 + 18}" r="4" fill="{c["dado"]}"/>' + barras
-              + f'<path d="{linha}" fill="none" stroke="{c["brasa"]}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>'
+              f'<circle cx="{px0 + pw - 18}" cy="{py0 + 18}" r="4" fill="{c["dado"]}" filter="url(#brilho)"/>'
+              + f'<g filter="url(#brilho)" opacity=".95">{barras}</g>'
+              + f'<path d="{linha}" fill="none" stroke="{c["brasa"]}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" '
+                f'filter="url(#brilho)"/>'
               + f'<rect x="{px0 + 160}" y="{py0 + 100}" width="62" height="7" rx="3.5" fill="#2e4068"/>'
               + f'<rect x="{px0 + 160}" y="{py0 + 114}" width="44" height="7" rx="3.5" fill="#2e4068"/>'
               + f'<rect x="{px0 + 160}" y="{py0 + 128}" width="52" height="7" rx="3.5" fill="#2e4068"/>')
@@ -175,10 +237,20 @@ def main():
                   + manometro(800, 248, 330) + manometro(1050, 96, 290)
                   + janela(565, 182, False) + janela(740, 300, False) + janela(905, 40, True) + janela(1010, 40, True)
                   + janela(1277, 236, True))
+    # pulsos de luz nos canos: laranja (bruto) até o ETL, verde-água (tratado) depois dele
+    pulsos = (pulso(640, 182, 44, False) + pulso(828, 182, 50, False) + pulso(834, 262, 40, False)
+              + pulso(992, 40, 46, True) + pulso(1050, 142, 26, True, vertical=True) + pulso(1240, 300, 40, True))
+    defs.append(f'<linearGradient id="luzTela" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{c["dado"]}" stop-opacity=".07"/>'
+                f'<stop offset="1" stop-color="{c["dado"]}" stop-opacity="0"/></linearGradient>')
     dlp, lp = listras(470, PISO - 4, 1090, 4, "lp")
     defs.append(dlp)
-    corpo = (fundo + chamada + "".join(origens) + canos + juntas + engr + coluna + escada + faixa + visores + chamine
-             + rotulo_etl + canos2 + juntas2 + dw + painel + acessorios + lp)
+    sombras = (sombra(530, 60) + sombra(610, 60) + sombra(690, 60) + sombra(cx0 + cw / 2, cw + 12)
+               + sombra(dx0 + dw_ / 2, dw_ + 16) + sombra(px0 + pw / 2, 68))
+    planta = ("".join(origens) + canos + juntas + engr + coluna + escada + faixa + visores + chamine
+              + rotulo_etl + canos2 + juntas2 + dw + painel + acessorios + pulsos)
+    # reflexo: a mesma planta espelhada no piso, bem apagada
+    reflexo = (f'<g mask="url(#reflexo)"><use href="#planta" transform="matrix(1 0 0 -1 0 {2 * PISO})"/></g>')
+    corpo = fundo + chamada + sombras + f'<g id="planta" clip-path="url(#acimaPiso)">{planta}</g>' + reflexo + lp
     svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" '
            f'aria-labelledby="t"><title id="t">Refinaria de dados: do dado bruto à decisão</title>'
            f'<defs>{"".join(defs)}{"".join(g.defs)}</defs>{corpo}</svg>\n')

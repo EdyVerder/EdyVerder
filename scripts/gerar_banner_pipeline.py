@@ -6,7 +6,7 @@ consumidores (painel, e-mail, robô). Pacotes correm pelas arestas e cada nó pu
 
 Tudo é SVG puro: as letras viram <path> com o fontTools (não depende de fonte instalada), os pacotes
 andam com SMIL (animateMotion) e o resto com CSS, que para com prefers-reduced-motion.
-Uso: python -m pip install fonttools && python scripts/gerar_banner.py
+Uso: python -m pip install fonttools && python scripts/gerar_banner_pipeline.py
 """
 import functools
 import math

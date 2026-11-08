@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.svg" width="100%" alt="VERDER em letras grossas sobre um pipeline de dados em movimento: banco, API e planilha alimentam as engrenagens da transformação, que carregam o data warehouse; um orquestrador entrega os dados a um painel, a um e-mail e a um robô. Engenharia de dados, automação e ETL." />
+  <img src="assets/banner.svg" width="100%" alt="Placa industrial com VERDER em letras grossas sobre uma fábrica de dados animada: o silo do ERP despeja registros brutos na esteira, um braço robótico transforma cada um e a esteira leva os blocos tratados para o prédio do DW. Engenharia de dados, automação e ETL." />
 </p>
 
 <p align="center">

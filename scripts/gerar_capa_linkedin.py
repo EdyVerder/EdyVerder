@@ -100,10 +100,16 @@ def main():
              f'<rect y="{PISO + 30}" width="{W}" height="2" fill="{c["brasa"]}" opacity=".22"/>')
 
     # chamada à esquerda (a foto do perfil cobre o canto de baixo, então tudo fica no alto)
-    sob, _ = texto(TK700, 10.5, "ENGENHARIA DE DADOS · AUTOMAÇÃO · ETL", 50, 62, c["brasa"], 2.6)
-    l1, _ = texto(TK900, 31, "DO DADO BRUTO", 48, 112, "#ffffff", 2)
-    l2, _ = texto(TK900, 31, "À DECISÃO", 48, 158, c["dado"], 2)
-    url, _ = texto(PX500, 10, "github.com/EdyVerder", 50, 190, "#8fa3c8")
+    sob, _ = texto(TK700, 10.5, "ENGENHARIA DE DADOS · AUTOMAÇÃO · ETL", 50, 54, c["brasa"], 2.6)
+    l1, _ = texto(TK900, 31, "DO DADO BRUTO", 48, 104, "#ffffff", 2)
+    l2, _ = texto(TK900, 31, "À DECISÃO", 48, 150, c["dado"], 2)
+    # endereço do GitHub numa plaquinha com luz de status, na fonte da marca
+    u1, larg1 = texto(TK700, 12, "github.com/", 74, 186, "#cfd8ea", 1.2)
+    u2, larg2 = texto(TK900, 12, "EdyVerder", 74 + larg1 + 1, 186, c["dado"], 1.4)
+    fim = 74 + larg1 + 1 + larg2 + 16
+    url = (f'<rect x="46" y="166" width="{n(fim - 46)}" height="28" rx="6" fill="{c["aco1"]}" stroke="{c["aco3"]}"/>'
+           f'<circle cx="60" cy="180" r="7" fill="{c["dado"]}" opacity=".18"/>'
+           f'<circle cx="60" cy="180" r="3.6" fill="{c["dado"]}"/>' + u1 + u2)
     chamada = sob + f'<g transform="translate(2.2 2.2)" opacity=".55">{l1.replace(chr(34) + "#ffffff" + chr(34), chr(34) + c["brasa4"] + chr(34))}</g>' + l1 + l2 + url
 
     # tanques de origem
